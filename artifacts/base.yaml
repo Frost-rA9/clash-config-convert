@@ -1,0 +1,126 @@
+# Native settings are kept under config; directives below are removed on render.
+config:
+  mixed-port: 7890
+  allow-lan: false
+  mode: rule
+  log-level: warning
+  ipv6: false
+  unified-delay: true
+  tcp-concurrent: true
+  profile:
+    store-selected: true
+    store-fake-ip: true
+  tun:
+    enable: false
+    stack: mixed
+    auto-route: true
+    auto-detect-interface: true
+    strict-route: true
+    dns-hijack: [any:53]
+  dns:
+    enable: true
+    listen: 127.0.0.1:1053
+    ipv6: false
+    enhanced-mode: fake-ip
+    fake-ip-range: 198.18.0.1/16
+    use-hosts: true
+    default-nameserver: [223.5.5.5, 119.29.29.29]
+    proxy-server-nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
+    direct-nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
+    nameserver:
+      - https://1.1.1.1/dns-query#Proxy
+      - https://8.8.8.8/dns-query#Proxy
+    nameserver-policy:
+      "rule-set:private,cn": [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
+    fake-ip-filter:
+      - "*.lan"
+      - "*.local"
+      - localhost
+      - "+.msftconnecttest.com"
+      - "+.msftncsi.com"
+      - "rule-set:private"
+      - "rule-set:cn"
+
+nodes:
+  drop_name_keywords: [Traffic, Expire, 剩余, 流量, 到期, 官网, 订阅, 网址, 地址, 时间, 有效, 速度]
+  drop_duplicate_by: [type, server, port]
+  region_keys:
+    - {type: chinese_name}
+    - {type: flag_emoji}
+    - {type: iso_code}
+  region_overrides:
+    - {match_name: 台湾, region: TW}
+  fallback_region: XX
+
+groups:
+  - name: Auto
+    type: url-test
+    regions: ["*"]
+    options:
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      tolerance: 50
+  - {name: HK, regions: [HK]}
+  - {name: JP, regions: [JP]}
+  - {name: SG, regions: [SG]}
+  - {name: TW, regions: [TW]}
+  - {name: US, regions: [US]}
+  - name: Proxy
+    groups: [Auto, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Auto
+  - {insert: profile_groups}
+  - name: Final
+    groups: [Proxy, Auto, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+
+# MRS providers avoid a separate GeoIP or GeoSite database dependency.
+rule-providers:
+  ads:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs
+    path: ./rules/ads.mrs
+    interval: 86400
+    proxy: DIRECT
+  private:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs
+    path: ./rules/private.mrs
+    interval: 86400
+    proxy: DIRECT
+  private-ip:
+    type: inline
+    behavior: ipcidr
+    payload: [127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16, "::1/128", "fc00::/7", "fe80::/10"]
+  cn:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-cn.mrs
+    path: ./rules/cn.mrs
+    interval: 86400
+    proxy: DIRECT
+  cn-ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs
+    path: ./rules/cn-ip.mrs
+    interval: 86400
+    proxy: DIRECT
+
+rules:
+  - RULE-SET,ads,REJECT
+  - RULE-SET,private,DIRECT
+  - RULE-SET,private-ip,DIRECT,no-resolve
+  - {insert: user_rules}
+  - RULE-SET,cn,DIRECT
+  - RULE-SET,cn-ip,DIRECT
+  - MATCH,Final

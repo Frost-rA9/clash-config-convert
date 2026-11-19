@@ -1,0 +1,32 @@
+mixed-port: 9999
+proxy-groups:
+  - {name: SourceGroup, type: select, proxies: [DIRECT]}
+rules: ["MATCH,SourceGroup"]
+hosts:
+  node.example.test: 192.0.2.11
+proxies:
+  - {name: "Traffic remaining", type: ss, server: info.test, port: 443, cipher: aes-128-gcm, password: fake}
+  - name: "香港 1"
+    type: ss
+    server: node.example.test
+    port: 443
+    cipher: aes-128-gcm
+    password: test-password
+    plugin: obfs
+    plugin-opts: {mode: http, host: example.test}
+    udp: true
+  - {name: "香港 duplicate", type: ss, server: node.example.test, port: 443, cipher: aes-128-gcm, password: test-password}
+  - name: "日本 1"
+    type: vmess
+    server: 192.0.2.12
+    port: 443
+    uuid: 00000000-0000-0000-0000-000000000000
+    alterId: 0
+    cipher: auto
+    tls: true
+    network: ws
+    ws-opts: {path: /test, headers: {Host: example.test}}
+  - {name: "美国 1", type: trojan, server: 192.0.2.13, port: 443, password: test-password, sni: example.test, skip-cert-verify: true}
+  - {name: "新加坡 1", type: trojan, server: 192.0.2.14, port: 443, password: test-password}
+  - {name: "台湾 1", type: trojan, server: 192.0.2.15, port: 443, password: test-password}
+  - {name: "other", type: vless, server: 192.0.2.16, port: 443, uuid: 00000000-0000-0000-0000-000000000000, tls: true, reality-opts: {public-key: test-public-key}, client-fingerprint: chrome}

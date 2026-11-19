@@ -1,0 +1,7 @@
+# Add the specific domain rule before a broader service rule in the profile.
+groups:
+  - name: Work
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    default: Proxy
+rules:
+  - DOMAIN-SUFFIX,example.com,Work

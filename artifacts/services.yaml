@@ -1,0 +1,191 @@
+# Copy this profile to local/services.yaml before adding personal rules.
+# Narrow service sets precede broad platform sets: YouTube before Google, GitHub before Microsoft.
+groups:
+  - name: YouTube
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: Netflix
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: Twitch
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: Telegram
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: Discord
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: GitHub
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: OpenAI
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: Anthropic
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: Steam
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: Epic
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: Apple
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: DIRECT
+  - name: Google
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: Proxy
+  - name: Microsoft
+    groups: [Proxy, DIRECT, HK, JP, SG, TW, US]
+    regions: ["*"]
+    exclude_regions: [HK, JP, SG, TW, US]
+    default: DIRECT
+
+rule-providers:
+  youtube:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs
+    path: ./rules/youtube.mrs
+    interval: 86400
+    proxy: DIRECT
+  netflix:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/netflix.mrs
+    path: ./rules/netflix.mrs
+    interval: 86400
+    proxy: DIRECT
+  twitch:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitch.mrs
+    path: ./rules/twitch.mrs
+    interval: 86400
+    proxy: DIRECT
+  telegram:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs
+    path: ./rules/telegram.mrs
+    interval: 86400
+    proxy: DIRECT
+  discord:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/discord.mrs
+    path: ./rules/discord.mrs
+    interval: 86400
+    proxy: DIRECT
+  github:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs
+    path: ./rules/github.mrs
+    interval: 86400
+    proxy: DIRECT
+  openai:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/openai.mrs
+    path: ./rules/openai.mrs
+    interval: 86400
+    proxy: DIRECT
+  anthropic:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/anthropic.mrs
+    path: ./rules/anthropic.mrs
+    interval: 86400
+    proxy: DIRECT
+  steam:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam.mrs
+    path: ./rules/steam.mrs
+    interval: 86400
+    proxy: DIRECT
+  epicgames:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/epicgames.mrs
+    path: ./rules/epicgames.mrs
+    interval: 86400
+    proxy: DIRECT
+  apple:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs
+    path: ./rules/apple.mrs
+    interval: 86400
+    proxy: DIRECT
+  google:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs
+    path: ./rules/google.mrs
+    interval: 86400
+    proxy: DIRECT
+  microsoft:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs
+    path: ./rules/microsoft.mrs
+    interval: 86400
+    proxy: DIRECT
+
+rules:
+  - RULE-SET,youtube,YouTube
+  - RULE-SET,netflix,Netflix
+  - RULE-SET,twitch,Twitch
+  - RULE-SET,telegram,Telegram
+  - RULE-SET,discord,Discord
+  - RULE-SET,github,GitHub
+  - RULE-SET,openai,OpenAI
+  - RULE-SET,anthropic,Anthropic
+  - DOMAIN-SUFFIX,steamcontent.com,DIRECT
+  - DOMAIN-SUFFIX,steamstatic.com,DIRECT
+  - RULE-SET,steam,Steam
+  - RULE-SET,epicgames,Epic
+  - RULE-SET,apple,Apple
+  - RULE-SET,google,Google
+  - RULE-SET,microsoft,Microsoft
